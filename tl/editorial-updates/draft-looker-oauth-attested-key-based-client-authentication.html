@@ -1048,7 +1048,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker</td>
-<td class="center">Expires 5 November 2023</td>
+<td class="center">Expires 6 November 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1061,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-looker-oauth-attested-key-based-client-authentication-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-05-04" class="published">4 May 2023</time>
+<time datetime="2023-05-05" class="published">5 May 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-11-05">5 November 2023</time></dd>
+<dd class="expires"><time datetime="2023-11-06">6 November 2023</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1108,7 +1108,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 November 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 November 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1368,23 +1368,21 @@ iOiJSUzI1[...omitted for brevity...]
 </li>
             <li id="section-3.1.2-2.2">The JWT <span class="bcp14">MUST</span> contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server <span class="bcp14">MUST</span> reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.  Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.<a href="#section-3.1.2-2.2" class="pilcrow">¶</a>
 </li>
-            <li id="section-3.1.2-2.3">
-              <ol start="1" type="1" class="normal type-1" id="section-3.1.2-2.3.1">
-<li id="section-3.1.2-2.3.1.1">The JWT <span class="bcp14">MUST</span> contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server <span class="bcp14">MAY</span> ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.<a href="#section-3.1.2-2.3.1.1" class="pilcrow">¶</a>
+            <li id="section-3.1.2-2.3">The JWT <span class="bcp14">MUST</span> contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server <span class="bcp14">MAY</span> ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.<a href="#section-3.1.2-2.3" class="pilcrow">¶</a>
 </li>
-              </ol>
+            <li id="section-3.1.2-2.4">The JWT <span class="bcp14">MUST</span> contain an "aud" (audience) claim containing a value that identifies the authorization server as an intended audience. The <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> issuer identifier URL of the authorization server <span class="bcp14">MUST</span> be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.<a href="#section-3.1.2-2.4" class="pilcrow">¶</a>
 </li>
-            <li id="section-3.1.2-2.4">The JWT <span class="bcp14">MAY</span> contain an "nbf" (not before) claim that identifies the time before which the token <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-3.1.2-2.4" class="pilcrow">¶</a>
+            <li id="section-3.1.2-2.5">The JWT <span class="bcp14">MAY</span> contain an "nbf" (not before) claim that identifies the time before which the token <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-3.1.2-2.5" class="pilcrow">¶</a>
 </li>
-            <li id="section-3.1.2-2.5">The JWT <span class="bcp14">MAY</span> contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.<a href="#section-3.1.2-2.5" class="pilcrow">¶</a>
+            <li id="section-3.1.2-2.6">The JWT <span class="bcp14">MAY</span> contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.<a href="#section-3.1.2-2.6" class="pilcrow">¶</a>
 </li>
-            <li id="section-3.1.2-2.6">The JWT <span class="bcp14">MAY</span> contain other claims.<a href="#section-3.1.2-2.6" class="pilcrow">¶</a>
+            <li id="section-3.1.2-2.7">The JWT <span class="bcp14">MAY</span> contain other claims.<a href="#section-3.1.2-2.7" class="pilcrow">¶</a>
 </li>
-            <li id="section-3.1.2-2.7">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-3.1.2-2.7" class="pilcrow">¶</a>
+            <li id="section-3.1.2-2.8">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-3.1.2-2.8" class="pilcrow">¶</a>
 </li>
-            <li id="section-3.1.2-2.8">The public key used to verify the JWT <span class="bcp14">MUST</span> be the key located in the "cnf" claim of the corresponding client key attestation JWT.<a href="#section-3.1.2-2.8" class="pilcrow">¶</a>
+            <li id="section-3.1.2-2.9">The public key used to verify the JWT <span class="bcp14">MUST</span> be the key located in the "cnf" claim of the corresponding client key attestation JWT.<a href="#section-3.1.2-2.9" class="pilcrow">¶</a>
 </li>
-            <li id="section-3.1.2-2.9">The authorization server <span class="bcp14">MUST</span> reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-3.1.2-2.9" class="pilcrow">¶</a>
+            <li id="section-3.1.2-2.10">The authorization server <span class="bcp14">MUST</span> reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-3.1.2-2.10" class="pilcrow">¶</a>
 </li>
           </ol>
 <p id="section-3.1.2-3">The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.<a href="#section-3.1.2-3" class="pilcrow">¶</a></p>
@@ -1504,8 +1502,12 @@ o  Specification Document(s): TBC<a href="#section-6.2-2" class="pilcrow">¶</a>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Proof-of-Possession Key Semantics for JSON Web Tokens (JWTs)"</span>, <span class="seriesInfo">RFC 7800</span>, <span class="seriesInfo">DOI 10.17487/RFC7800</span>, <time datetime="2016-04" class="refDate">April 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7800">https://www.rfc-editor.org/rfc/rfc7800</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8414">[RFC8414]</dt>
+      <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Sakimura, N.</span>, and <span class="refAuthor">J. Bradley</span>, <span class="refTitle">"OAuth 2.0 Authorization Server Metadata"</span>, <span class="seriesInfo">RFC 8414</span>, <span class="seriesInfo">DOI 10.17487/RFC8414</span>, <time datetime="2018-06" class="refDate">June 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8414">https://www.rfc-editor.org/rfc/rfc8414</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
