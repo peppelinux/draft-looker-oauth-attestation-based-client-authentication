@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-05-11T00:49:32.297724+00:00",
+  "timestamp": "2023-05-14T00:53:13.878931+00:00",
   "repo": "vcstuff/draft-looker-oauth-attested-key-based-client-authentication",
   "labels": [
     {
@@ -57,12 +57,12 @@
       "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/issues/3",
       "state": "OPEN",
       "author": "Sakurann",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "make it clear that the receiver of the attestation needs to trust the signer of the attestation and pre-obtain(?) the keys to validate it?",
       "createdAt": "2023-05-09T10:10:14Z",
-      "updatedAt": "2023-05-10T17:58:41Z",
+      "updatedAt": "2023-05-11T18:35:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -71,8 +71,45 @@
           "body": "I would imagine the client is configured/registered with the AS and the jwks or jwks_uri of that client is where the verification keys are found. Basically the trust comes from the client configuration record at the AS (however that comes to be) and the keys are obtained from the client jwks/jwks_uri metadata.",
           "createdAt": "2023-05-10T17:58:41Z",
           "updatedAt": "2023-05-10T17:58:41Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree with Brian, I dont think we want this draft to define how the keys required to validate the attestation MUST be obtained because that is really based on how the client comes to be configured at the AS and as a result there could be multiple mechanisms. There may be a need to add some language that makes this clearly however I will note that RFC 7523 doesn't speak to this for the assertions it defines.",
+          "createdAt": "2023-05-11T09:54:19Z",
+          "updatedAt": "2023-05-11T09:54:19Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "NONE",
+          "body": "The key point is the digital trust relationship that allows a client to be registered and attestable as realiable and eligible in relation to one or more trust frameworks, and for any following transactions, outside the client registration, that may happen in a defined period of time, beyond which trust with that client must be re-evaluated.\r\n\r\nGiven that having a client registered previously or obtaining its public keys though TLS doesn't give any assurance about the compliance of that client in the present, in relation to privacy and security preserving trust model. We shoudl consider that a client, that's a participant in a Auth/eID infrastructure, may lose its compliance and consequently be banned because of this. The requirement to be met is to allow an automatic method for evaluating the revocation status of the client, if the determining authority (TTP) is outside the party (AS and Client)\r\n\r\nanother key point is that trusted attestations, which allow a customer to be registered and then allow data interchange with it, are considered long-lived attestations, for the satisfaction of non-repudiation requirements for years to come.",
+          "createdAt": "2023-05-11T14:49:33Z",
+          "updatedAt": "2023-05-11T14:49:33Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "body": "Just to add a bit of context about the comment about RFC 7523 - it doesn't speak to this stuff in specific terms but does have some discussion in [Interoperability Considerations](https://datatracker.ietf.org/doc/html/rfc7523#section-5) that's pretty open ended. RFC7523 came before \"Dynamic Client Registration\" in RFC7591. But since then the metadata defined in RFC7591, and registered extensions to it, have come to imply a general data model for clients that is useful and used for authorization server implementations, even when the Dynamic Client Registration Protocol isn't in play. That includes jwks/jwks_uri metadata as the place for key(s). OIDC core kinda follows and pushes that pattern too and even 'profiles' RFC7591 somewhat with its definition of `private_key_jwt`.  So, regardless of how a client comes to be configured, the jwks or jwks_uri client metadata fields really have become the de facto for where/how client keys are obtained. I think this draft could acknowledge and/or provide some guidance in that direction. The AS would have one client config recorded for the whole client system and the verification keys for the attestation assertion come from the jwks or jwks_uri fields of that record. \"Trust\" comes from how that client record comes to be configured, but that how is out of scope of this draft. \r\n",
+          "createdAt": "2023-05-11T18:28:31Z",
+          "updatedAt": "2023-05-11T18:35:53Z"
         }
       ]
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOJaEkaM5l2HJe",
+      "title": "`sub` value",
+      "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/issues/4",
+      "state": "OPEN",
+      "author": "Sakurann",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The text currently says:\r\n> The JWT MUST contain a \"sub\" (subject) claim with a value corresponding to the \"client_id\" of the OAuth client.\r\n\r\nthe thing is.. when there could been no pre-existing relationship between the issuer and the wallet. probably worth noting that `sub` (and `client_id` value) can be self-attested by the wallet frontend",
+      "createdAt": "2023-05-13T16:58:41Z",
+      "updatedAt": "2023-05-13T16:58:41Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -109,24 +146,26 @@
       "id": "PR_kwDOJaEkaM5QCK17",
       "title": "Add refresh token binding implementation consideration and update broken links",
       "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/pull/2",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "As discussed over email, this PR drafts some text to capture the requirement around refresh token binding to the client instance not just the client. The PR also addresses some broken links.\r\n\r\nPersonally I'm still not convinced that the best way to do this binding is through the client attestation key, instead I think we could add a claim that identifies the client instance in the client key attestation",
       "createdAt": "2023-05-08T20:25:40Z",
-      "updatedAt": "2023-05-10T17:29:43Z",
+      "updatedAt": "2023-05-11T19:18:01Z",
       "baseRepository": "vcstuff/draft-looker-oauth-attested-key-based-client-authentication",
       "baseRefName": "main",
       "baseRefOid": "fcfa55cd1a986edd8c6438b6eee72aeeeea1e91e",
       "headRepository": "vcstuff/draft-looker-oauth-attested-key-based-client-authentication",
       "headRefName": "tl/editorial-updates",
       "headRefOid": "525896663b6a46b83e5bba8a3902076add25569c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2023-05-11T19:17:49Z",
+      "mergedAt": "2023-05-11T19:17:49Z",
+      "mergedBy": "tplooker",
+      "mergeCommit": {
+        "oid": "a9c23810d7ebbe6131fc9dd944aecae0d0d9267d"
+      },
       "comments": [],
       "reviews": [
         {
@@ -135,7 +174,7 @@
             "abbreviatedOid": "e9cb956"
           },
           "author": "Sakurann",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "few suggestions",
           "createdAt": "2023-05-10T10:39:22Z",
