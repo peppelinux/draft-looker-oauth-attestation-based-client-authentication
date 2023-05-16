@@ -371,9 +371,9 @@ iOiJSUzI1[...omitted for brevity...]
 
    Implementers should be aware that using the same attestation key
    across multiple authorization servers could result in correlation of
-   the end user using the client instance.  Implementers are therefore
-   RECOMMENDED to use different attestation keys across different
-   authorization servers.
+   the end user using the client instance.  Client deployments are
+   therefore RECOMMENDED to use different attestation keys across
+   different authorization servers.
 
 6.  Security Considerations
 
