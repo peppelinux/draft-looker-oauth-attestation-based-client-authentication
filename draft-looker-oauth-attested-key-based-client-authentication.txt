@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
-Intended status: Informational                               11 May 2023
-Expires: 12 November 2023
+Intended status: Informational                               17 May 2023
+Expires: 18 November 2023
 
 
             OAuth2 Attested Key Based Client Authentication
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 November 2023.
+   This Internet-Draft will expire on 18 November 2023.
 
 Copyright Notice
 
@@ -70,16 +70,18 @@ Table of Contents
    4.  Implementation Considerations
      4.1.  Re use of a Client Attestation JWT
      4.2.  Refresh token binding
-   5.  Security Considerations
-   6.  IANA Considerations
-     6.1.  Sub-Namespace Registration of
+   5.  Privacy Considerations
+     5.1.  Client Instance Tracking Across Authorization Servers
+   6.  Security Considerations
+   7.  IANA Considerations
+     7.1.  Sub-Namespace Registration of
            urn:ietf:params:oauth:client-assertion-type:jwt-key-attestati
            on
-     6.2.  Registration of attest_key_client_auth Token Endpoint
+     7.2.  Registration of attest_key_client_auth Token Endpoint
            Authentication Method
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -363,13 +365,24 @@ iOiJSUzI1[...omitted for brevity...]
    also use the same client attestation key that was used for
    authentication when the refresh token was issued.
 
-5.  Security Considerations
+5.  Privacy Considerations
+
+5.1.  Client Instance Tracking Across Authorization Servers
+
+   Implementers should be aware that using the same client attestation
+   across multiple authorization servers could result in correlation of
+   the end user using the client instance through claim values
+   (including the public key in the cnf claim).  Client deployments are
+   therefore RECOMMENDED to use different client attestations across
+   different authorization servers.
+
+6.  Security Considerations
 
    TODO
 
-6.  IANA Considerations
+7.  IANA Considerations
 
-6.1.  Sub-Namespace Registration of urn:ietf:params:oauth:client-
+7.1.  Sub-Namespace Registration of urn:ietf:params:oauth:client-
       assertion-type:jwt-key-attestation
 
    This section registers the value "client-assertion-type:jwt-key-
@@ -381,7 +394,7 @@ iOiJSUzI1[...omitted for brevity...]
    Authentication Authentication o Change Controller: IESG o
    Specification Document: TBC
 
-6.2.  Registration of attest_key_client_auth Token Endpoint
+7.2.  Registration of attest_key_client_auth Token Endpoint
       Authentication Method
 
    This section registers the value "attest_key_client_auth" in the IANA
@@ -391,9 +404,9 @@ iOiJSUzI1[...omitted for brevity...]
    o Token Endpoint Authentication Method Name: "attest_key_client_auth"
    o Change Controller: IESG o Specification Document(s): TBC
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [DPOP]     Fett, D., Campbell, B., Bradley, J., Lodderstedt, T.,
               Jones, M., and D. Waite, "OAuth 2.0 Demonstrating Proof-
@@ -440,7 +453,7 @@ iOiJSUzI1[...omitted for brevity...]
               DOI 10.17487/RFC8414, June 2018,
               <https://www.rfc-editor.org/rfc/rfc8414>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
