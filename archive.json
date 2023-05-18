@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-05-16T00:50:57.447442+00:00",
+  "timestamp": "2023-05-18T00:50:05.314394+00:00",
   "repo": "vcstuff/draft-looker-oauth-attested-key-based-client-authentication",
   "labels": [
     {
@@ -107,7 +107,7 @@
       "labels": [],
       "body": "The text currently says:\r\n> The JWT MUST contain a \"sub\" (subject) claim with a value corresponding to the \"client_id\" of the OAuth client.\r\n\r\nthe thing is.. when there could been no pre-existing relationship between the issuer and the wallet. probably worth noting that `sub` (and `client_id` value) can be self-attested by the wallet frontend",
       "createdAt": "2023-05-13T16:58:41Z",
-      "updatedAt": "2023-05-14T23:47:44Z",
+      "updatedAt": "2023-05-16T13:50:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -116,8 +116,70 @@
           "body": "I dont think we want to offer too much commentary here about how the client ends up with a client ID that is recognised and trusted by the AS (credential issuer), but I agree the case you raise is permitted.",
           "createdAt": "2023-05-14T23:47:44Z",
           "updatedAt": "2023-05-14T23:47:44Z"
+        },
+        {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Shouldn't we at least describe what identifier is used for further processing (whether to lookup further data or in audit logs)? If the AS trusts the Issuer of the JWT, it should trust it to put a reasonable value in the `sub` field for further usage. ",
+          "createdAt": "2023-05-16T13:49:05Z",
+          "updatedAt": "2023-05-16T13:49:05Z"
+        },
+        {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I assume in some cases the issuer will out the `iss` in the `sub` claim, i.e. whatever data is looked up will be about the issuer (e.g. a wallet provider).",
+          "createdAt": "2023-05-16T13:50:03Z",
+          "updatedAt": "2023-05-16T13:50:03Z"
         }
       ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOJaEkaM5mDAKH",
+      "title": "Change name of the JWT to Client Attestation ",
+      "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/issues/6",
+      "state": "OPEN",
+      "author": "tlodderstedt",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I'm struggling with the terminology currently used in this draft. For me, it describes a mechanism to use JWTs to authenticate OAuth clients. \r\n\r\nHowever, the draft currently designates those JWTs as \"Key Attestation\" or \"attestation key\" or \"jwt-key-attestation\", which sounds like the focus is on attesting something about a certain key to the AS. But that's obviously not the case since, this draft is about client authentication and the key is \"just\" used to protect the JWT against replay. \r\n\r\nI think the name is confusing and suggest to change it to \"Client Attestation\". ",
+      "createdAt": "2023-05-16T13:45:01Z",
+      "updatedAt": "2023-05-16T13:45:01Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOJaEkaM5mMD6N",
+      "title": "Introduction text",
+      "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/issues/7",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The current draft says:\r\n\r\n> [[RFC7521](https://vcstuff.github.io/draft-looker-oauth-attested-key-based-client-authentication/draft-looker-oauth-attested-key-based-client-authentication.html#RFC7521)] defines a way for a client to include an assertion in a token request to an authorization server for the purposes of client authentication. This specification extends this mechanism to provide a way for a client instance to authenticate it self with the authorization server through an attested key based authentication scheme.\r\n\r\nI don't like the description of a \"an attested key based authentication scheme\", as key attestations are not always possible and it is more about attesting the wallet and the key being a mechanism.\r\n\r\n I would rather describe the current approach as a\r\n- remote client (instance) attestation scheme\r\n- remote wallet (instance) attestation scheme",
+      "createdAt": "2023-05-17T18:27:28Z",
+      "updatedAt": "2023-05-17T18:27:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOJaEkaM5mMRNY",
+      "title": "Improvements to the diagram",
+      "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/issues/8",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The current diagram describes 6 steps:\r\n(1) Generate Attestation Key \r\n(2) Request  Client Key Attestation for generated key\r\n(3) Generate Client Key Attestation\r\n(4) Repond with Generated Client Key Attestation\r\n(5) Generate Key Attestation PoP\r\n(6) Interaction using Client Key Attestation + PoP for authentication\r\n\r\nI would propose for:\r\n(1) Generate key and client app attestations\r\n(2) Request Client Attestation JWT\r\n(3) Validate attestations and generate Client Attestation JWT\r\n(4) Issue Client Attestation JWT\r\n(5) Generate DPoP for Client Attestation JWT\r\n(6) Authenticate using Client Attestation JWT + DPoP\r\n",
+      "createdAt": "2023-05-17T18:59:35Z",
+      "updatedAt": "2023-05-17T18:59:35Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -247,6 +309,68 @@
               "updatedAt": "2023-05-10T17:26:44Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOJaEkaM5Ql_Wl",
+      "title": "Add privacy consideration around client instance tracking",
+      "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/pull/5",
+      "state": "MERGED",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As highlighted in the title this PR adds a privacy consideration around potential client instance tracking along with a recommendation for client deployments to mitigate such risk.",
+      "createdAt": "2023-05-16T09:17:09Z",
+      "updatedAt": "2023-05-17T06:46:06Z",
+      "baseRepository": "vcstuff/draft-looker-oauth-attested-key-based-client-authentication",
+      "baseRefName": "main",
+      "baseRefOid": "a9c23810d7ebbe6131fc9dd944aecae0d0d9267d",
+      "headRepository": "vcstuff/draft-looker-oauth-attested-key-based-client-authentication",
+      "headRefName": "tl/client-instance-tracking",
+      "headRefOid": "1d0783734cbc31749dbe529159351dddefa679e7",
+      "closedAt": "2023-05-17T06:38:14Z",
+      "mergedAt": "2023-05-17T06:38:14Z",
+      "mergedBy": "tplooker",
+      "mergeCommit": {
+        "oid": "071f2a30565a4428394ab157325fffd212a47277"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM5VJsLR",
+          "commit": {
+            "abbreviatedOid": "2390ceb"
+          },
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-05-16T13:35:52Z",
+          "updatedAt": "2023-05-16T13:35:52Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nImplementers should be aware that using the same client attestation across multiple authorization servers could result in correlation of the end user using the client instance through claim values (including the public key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different client attestations across different authorization servers.\r\n```",
+              "createdAt": "2023-05-16T13:35:52Z",
+              "updatedAt": "2023-05-16T13:35:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5VOrvQ",
+          "commit": {
+            "abbreviatedOid": "1d07837"
+          },
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-05-17T06:33:55Z",
+          "updatedAt": "2023-05-17T06:33:55Z",
+          "comments": []
         }
       ]
     }
