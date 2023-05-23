@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-05-21T00:54:10.927310+00:00",
+  "timestamp": "2023-05-23T00:51:14.943441+00:00",
   "repo": "vcstuff/draft-looker-oauth-attested-key-based-client-authentication",
   "labels": [
     {
@@ -62,7 +62,7 @@
       "labels": [],
       "body": "make it clear that the receiver of the attestation needs to trust the signer of the attestation and pre-obtain(?) the keys to validate it?",
       "createdAt": "2023-05-09T10:10:14Z",
-      "updatedAt": "2023-05-20T22:56:42Z",
+      "updatedAt": "2023-05-21T21:56:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -99,6 +99,13 @@
           "body": "I start from the assumption that OpenID Connect Federation confirms the traditional methods to get the jwks, using jwks/jwks_uri, enabling the jwks claim for the openid connect providers metadata as well.\r\n\r\nI want to start from the example below and answering to the question \"How can you trust such client?\"\r\n\r\n````\r\n{\r\n  \"alg\": \"ES256\",\r\n  \"kid\": \"11\",\r\n  \"trust_chain\": [ ... ]\r\n}\r\n.\r\n{\r\n  \"iss\": \"https://client.example.com\",\r\n  \"sub\": \"https://client.example.com\",\r\n  \"nbf\":1300815780,\r\n  \"exp\":1300819380,\r\n  \"cnf\": {\r\n    \"jwk\": {\r\n      \"kty\": \"EC\",\r\n      \"use\": \"sig\",\r\n      \"crv\": \"P-256\",\r\n      \"x\": \"18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM\",\r\n      \"y\": \"-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA\"\r\n    }\r\n  }\r\n}\r\n````\r\n\r\nif we would have a x5c header parameter instead of the Federation Trust Chain, the Key Attestation would be realiable according to a x509 PKI.\r\n\r\nUsing the Federation Trust Chain we are able to:\r\n\r\n- get the public key corresponding to the kid 11\r\n- get the trust relationships between the client and one or more Trusted Third Parties\r\n- get the metadata related to that client (and all its jwks ...)\r\n- get the policy to be applicable to the metadata, following what configured by the Trusted Third Parties for this client\r\n-  verify the trust chain over years, even if the public keys needed for verification are changed to one or multiple trusted third party or in the client as well\r\n\r\nI'm aware that attesting keys is just attesting keys but the model would require how to attest the owner of that key as reliable?\r\nHow do you trust that client, since it has self issued that attestation?\r\n\r\nI suggest to introduce the topic of Trust Establishment in this Draft, to give some pointers or refs to the ways we have todate to verify the reliability of an attestation, since a self-signed attestation is not attestable as secure.\r\n\r\nAt the same time there may be the possibility that a client attestation should be issued by a trusted third party, so the question would are: \r\n\r\n- Is there a single Trusted Third Party? \r\n- Is there any way the Trusted Third Party has to delegate the issuing of the attestations to another party as an intermediate?\r\n- Is there the need to obtain the public keys of all the Trusted Third Parties, if more than a single? If yes, how to know who these are?\r\n\r\nI'm asking since I found these answers in OpenID Connect Federation and the questions above are the classical questions the analysts/implementers have when deals with client attestations or dynamic client registrations ",
           "createdAt": "2023-05-20T17:01:34Z",
           "updatedAt": "2023-05-20T22:56:42Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "NONE",
+          "body": "Another example to exemplify the differences bwtween key attestation and assurance of reliability. \r\n\r\nA crypto key Is a key Just as a Key of a hotel room\r\n\r\nGiven that that Key effectively works for its hotel room, the question Is: which reputation has that hotel?\r\nHow many \"stars\" does It have?\r\nWho give those \"stars\"?\r\nWhich are the evaluation parameters and for how long  will these be valid?\r\nWill be a day when the hotel owner may say to have never give that room to a client, or that such client was never seen before?\r\nWhich trust framework will protect both hotel owner and client from unwanted actions they may do against each other?\r\n\r\nassurance of reliability is something verifiable, even If I'm aware that Trust is more a strategy and the Trust Model should define the rules and the architectural components to implement this strategy. A Strategy won't give us the assurance that a bad action won't be made by an Entity but at the same time the model must give also the assurance that every proof must be non repudiable and issued as long-lived, to give the guarantee to the participants that even if a rogue participant will break the rules of the trust, the proofs will be always verifiable in the future (especially when public keys will change)",
+          "createdAt": "2023-05-21T21:55:39Z",
+          "updatedAt": "2023-05-21T21:56:17Z"
         }
       ]
     },
@@ -257,7 +264,7 @@
       "labels": [],
       "body": "I'm struggling with the terminology currently used in this draft. For me, it describes a mechanism to use JWTs to authenticate OAuth clients. \r\n\r\nHowever, the draft currently designates those JWTs as \"Key Attestation\" or \"attestation key\" or \"jwt-key-attestation\", which sounds like the focus is on attesting something about a certain key to the AS. But that's obviously not the case since, this draft is about client authentication and the key is \"just\" used to protect the JWT against replay. \r\n\r\nI think the name is confusing and suggest to change it to \"Client Attestation\". ",
       "createdAt": "2023-05-16T13:45:01Z",
-      "updatedAt": "2023-05-19T16:27:54Z",
+      "updatedAt": "2023-05-22T16:22:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -280,6 +287,13 @@
           "body": "@tlodderstedt thats a proposal for the title of the RFC I guess? I'm ok with that..\r\nI propose \"Client Attestation JWT\" for the actual thing, that we call wallet attestation in our scenario",
           "createdAt": "2023-05-19T16:27:53Z",
           "updatedAt": "2023-05-19T16:27:53Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "NONE",
+          "body": "Renaming the Client Attestation covered by #11 .\r\nRenaming topic in this issue is about the title?",
+          "createdAt": "2023-05-22T16:22:45Z",
+          "updatedAt": "2023-05-22T16:22:45Z"
         }
       ]
     },
@@ -295,7 +309,7 @@
       "labels": [],
       "body": "The current draft says:\r\n\r\n> [[RFC7521](https://vcstuff.github.io/draft-looker-oauth-attested-key-based-client-authentication/draft-looker-oauth-attested-key-based-client-authentication.html#RFC7521)] defines a way for a client to include an assertion in a token request to an authorization server for the purposes of client authentication. This specification extends this mechanism to provide a way for a client instance to authenticate it self with the authorization server through an attested key based authentication scheme.\r\n\r\nI don't like the description of a \"an attested key based authentication scheme\", as key attestations are not always possible and it is more about attesting the wallet and the key being a mechanism.\r\n\r\n I would rather describe the current approach as a\r\n- remote client (instance) attestation scheme\r\n- remote wallet (instance) attestation scheme",
       "createdAt": "2023-05-17T18:27:28Z",
-      "updatedAt": "2023-05-18T06:54:39Z",
+      "updatedAt": "2023-05-22T16:21:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -304,6 +318,13 @@
           "body": "Agreed I dont like it particularly either, what about just \r\n\r\n\r\n[[RFC7521](https://vcstuff.github.io/draft-looker-oauth-attested-key-based-client-authentication/draft-looker-oauth-attested-key-based-client-authentication.html#RFC7521)] defines a way for a client to include an assertion in a token request to an authorization server for the purposes of client authentication. This specification extends this mechanism to provide a way for a client instance to authenticate itself with the authorization server through an attestation based authentication scheme.",
           "createdAt": "2023-05-18T06:54:25Z",
           "updatedAt": "2023-05-18T06:54:39Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "NONE",
+          "body": "I'm fine to close this, see #11 ",
+          "createdAt": "2023-05-22T16:21:37Z",
+          "updatedAt": "2023-05-22T16:21:37Z"
         }
       ]
     },
@@ -319,7 +340,7 @@
       "labels": [],
       "body": "The current diagram describes 6 steps:\r\n(1) Generate Attestation Key \r\n(2) Request  Client Key Attestation for generated key\r\n(3) Generate Client Key Attestation\r\n(4) Repond with Generated Client Key Attestation\r\n(5) Generate Key Attestation PoP\r\n(6) Interaction using Client Key Attestation + PoP for authentication\r\n\r\nI would propose for:\r\n(1) Generate key and client app attestations\r\n(2) Request Client Attestation JWT\r\n(3) Validate attestations and generate Client Attestation JWT\r\n(4) Issue Client Attestation JWT\r\n(5) Generate DPoP for Client Attestation JWT\r\n(6) Authenticate using Client Attestation JWT + DPoP\r\n",
       "createdAt": "2023-05-17T18:59:35Z",
-      "updatedAt": "2023-05-18T06:52:54Z",
+      "updatedAt": "2023-05-22T16:20:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -328,6 +349,13 @@
           "body": "A couple of thoughts w.r.t this\r\n\r\nIm not sure how much we want to talk about app attestations in this draft as it assumes the client instance is say a native app.\r\n\r\nI think this issue has some good terminology suggestions WDYT about the following\r\n\r\nClient Attestation JWT - Generated by the client backend\r\nClient Instance PoP JWT - Generated by the client instance during client authentication (I dont think DPoP is right to use here w.r.t how it conflicts with DPoP)\r\nClient Instance Key - What the client attestation jwt is bound to\r\n\r\n",
           "createdAt": "2023-05-18T06:52:53Z",
           "updatedAt": "2023-05-18T06:52:53Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "NONE",
+          "body": "Okay, is this covered by #11 ?\r\nOk to close for me",
+          "createdAt": "2023-05-22T16:20:31Z",
+          "updatedAt": "2023-05-22T16:20:31Z"
         }
       ]
     },
@@ -343,7 +371,7 @@
       "labels": [],
       "body": "Currently the specification does not define a mechanism for an AS contributed nonce to feature in the client attestation PoP meaning replay attack detection by authorisation servers requires tracking the JTI within the time window set by the PoP's iat claim. We should elaborate on an AS contributed nonce for the specification.",
       "createdAt": "2023-05-18T10:00:50Z",
-      "updatedAt": "2023-05-18T20:35:35Z",
+      "updatedAt": "2023-05-22T16:13:22Z",
       "closedAt": null,
       "comments": [
         {
@@ -359,8 +387,31 @@
           "body": "I think this is an option, however the nonce for client authentication becomes dependent on the grant type which creates a bit of an awkward coupling when an application wants to say use this mode of client authentication for grant type other than pre auth code or authorisation code.",
           "createdAt": "2023-05-18T20:35:12Z",
           "updatedAt": "2023-05-18T20:35:35Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "NONE",
+          "body": "How many implemantations out there actually use different grant types than auth-code?\r\nGiven that this serves our purposes and imo everybody is using auth-code, I think that we should RECOMMEND that scenario but I#m ok with showing up alternatives as you suggested.\r\n@tlodderstedt What's your opinion on this?",
+          "createdAt": "2023-05-22T16:13:22Z",
+          "updatedAt": "2023-05-22T16:13:22Z"
         }
       ]
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOJaEkaM5mhKRe",
+      "title": "Explain and discuss the options of ad-hoc and long-lasting client attestations",
+      "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/issues/10",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Options on requesting/generating the client/wallet attestation ad-hoc or in advance have been discussed and there are pros and cons for both sides. Is a short explanation of this suited for the RFC?",
+      "createdAt": "2023-05-22T15:52:23Z",
+      "updatedAt": "2023-05-22T15:52:23Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -554,6 +605,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOJaEkaM5RCLU9",
+      "title": "Introduction Text + Renaming Client Key Attestation to Client Attestation",
+      "url": "https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/pull/11",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-05-22T16:08:04Z",
+      "updatedAt": "2023-05-22T16:19:20Z",
+      "baseRepository": "vcstuff/draft-looker-oauth-attested-key-based-client-authentication",
+      "baseRefName": "main",
+      "baseRefOid": "071f2a30565a4428394ab157325fffd212a47277",
+      "headRepository": "paulbastian/draft-looker-oauth-attested-key-based-client-authentication",
+      "headRefName": "main",
+      "headRefOid": "2208c9a8074acb0820deb324a0af9598fd73183b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
